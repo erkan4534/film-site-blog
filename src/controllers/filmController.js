@@ -47,6 +47,26 @@ const filmSearch = async (req, res) => {
   }
 };
 
+const filmFind = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!isValidId(id)) {
+      return res.status(400).json({ message: 'Geçersiz film id' });
+    }
+
+    const film = await Film.findById(id).populate('category');
+
+    if (!film) {
+      return res.status(404).json({ message: 'Film bulunamadı' });
+    }
+
+    return res.status(200).json(film);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
 const filmUpdate = async (req, res) => {
   try {
     const { id } = req.params;
@@ -99,6 +119,7 @@ const filmDelete = async (req, res) => {
 module.exports = {
   filmCreate,
   filmSearch,
+  filmFind,
   filmUpdate,
   filmDelete,
 };
