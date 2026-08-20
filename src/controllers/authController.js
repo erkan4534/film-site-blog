@@ -10,12 +10,13 @@ const registerUser = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
         
-    const newUser = new User.create({  password: hashedPassword, ...otherData });
+    const newUser = await User.create({  password: hashedPassword, ...otherData });
 
     const token = jwt.sign({ id: newUser._id, email: newUser.email }, secret, { expiresIn });
     
     res.status(201).json({ message: 'Kullanıcı başarıyla oluşturuldu!', user: newUser, token });
   } catch (error) {
+    console.error('Kullanıcı oluşturulurken hata oluştu:', error);
     res.status(400).json({ message: error.message });
   }
 };
