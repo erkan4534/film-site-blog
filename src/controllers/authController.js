@@ -40,6 +40,7 @@ const loginUser = async (req, res) => {
 
     res.status(200).json({ message: 'Giriş başarılı!', token });
   } catch (error) {
+    console.error('Giriş yapılırken hata oluştu:', error);
     res.status(400).json({ message: error.message });
   }
 };
