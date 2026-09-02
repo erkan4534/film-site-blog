@@ -1,15 +1,5 @@
 const { body, validationResult } = require('express-validator');
-
-const handleValidation = (req, res, next) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({
-      message: 'Doğrulama hatası',
-      errors: errors.array(),
-    });
-  }
-  next();
-};
+const validate = require('../middleware/validate.js');
 
 const registerValidator = [
   body('firstName')
@@ -41,7 +31,7 @@ const registerValidator = [
     .trim()
     .isLength({ min: 3 })
     .withMessage('Adres en az 3 karakter olmalıdır'),
-  handleValidation,
+    validate,
 ];
 
 const loginValidator = [
@@ -55,7 +45,7 @@ const loginValidator = [
   body('password')
     .notEmpty()
     .withMessage('Şifre zorunludur'),
-  handleValidation,
+    validate,
 ];
 
 module.exports = {
