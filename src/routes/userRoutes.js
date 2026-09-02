@@ -7,12 +7,17 @@ const {
   updateUser,
   deleteUser,
 } = require('../controllers/userController');
+const {
+  createUserValidator,
+  updateUserValidator,
+  userIdValidator,
+} = require('../validators/userValidators');
 
 const router = express.Router();
 
 router.get('/', getAllUsers);
-router.post('/', verifyToken, createUser);
-router.put('/:id', updateUser);
-router.delete('/:userId', deleteUser);
+router.post('/', verifyToken, createUserValidator, createUser);
+router.put('/:id', updateUserValidator, updateUser);
+router.delete('/:userId', userIdValidator, deleteUser);
 
 module.exports = router;
