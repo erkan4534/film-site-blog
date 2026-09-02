@@ -1,5 +1,7 @@
 const express = require('express');
 const cors = require('cors');
+const morgan = require('morgan');
+const cookieParser = require('cookie-parser');
 const { logger } = require('./middleware/logEvents');
 const errorHandler = require('./middleware/errorHandler');
 const { globalLimiter, authLimiter } = require('./middleware/rateLimiter');
@@ -17,6 +19,7 @@ app.use(logger);
 app.use(globalLimiter);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 
 app.use('/api/auth',authLimiter, authRoutes);
 app.use('/api/users', userRoutes);
