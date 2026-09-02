@@ -1,9 +1,9 @@
 const jwt = require("jsonwebtoken");
 const { secret } = require("../config/jwtConfig");
 
-const verifyToken = (req, res, next) => {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
+const verifyToken = (req, res, next) => {  
+  const token =  req.cookies?.accessToken ||
+  (req.headers.authorization && req.headers.authorization.split(' ')[1]);
 
   if (!token) {
     return res.status(403).json({ message: 'Token gerekli' });

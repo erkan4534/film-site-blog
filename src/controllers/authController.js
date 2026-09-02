@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { secret, expiresIn } = require('../config/jwtConfig.js');
 const User = require('../models/User.js');
+const cookieConfig = require('../config/cookieConfig.js');
 
 const registerUser = async (req, res) => {
   try {
@@ -37,15 +38,25 @@ const loginUser = async (req, res) => {
     }
 
     const token = jwt.sign({ id: user._id, email: user.email }, secret, { expiresIn });
+    res.cookie('accessToken', token, cookieConfig.accessToken);
 
-    res.status(200).json({ message: 'Giriş başarılı!', token });
+   // res.status(200).json({ message: 'Giriş başarılı!', token });
+    
+     res.status(200).json({ message: 'Giriş başarılı!', user: { id: user._id, email: user.email } });
+    
   } catch (error) {
     console.error('Giriş yapılırken hata oluştu:', error);
     res.status(400).json({ message: error.message });
   }
 };
 
+const logoutUser = (req, res) => {
+  res.clearCookie('accessToken', cookieConfig.accessToken);
+  res.status(200).json({ message: 'Çıkış yapıldı' });
+};
+
 module.exports = {
   registerUser,
   loginUser,
+  logoutUser,
 };
