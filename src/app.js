@@ -12,6 +12,7 @@ const categoryRoutes = require('./routes/categoryRoutes');
 const app = express();
 
 app.use(cors(corsOptions));
+app.use(morgan('dev'));
 app.use(logger);
 app.use(globalLimiter);
 app.use(express.json());
