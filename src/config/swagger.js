@@ -6,7 +6,7 @@ const options = {
     info: {
       title: 'Film Site Blog API',
       version: '1.0.0',
-      description: 'Film, kategori ve kullanıcı API dokümantasyonu',
+      description: 'Film, kategori, blog yazısı ve kullanıcı API dokümantasyonu',
     },
     servers: [
       {
@@ -19,6 +19,7 @@ const options = {
       { name: 'Users', description: 'Kullanıcı işlemleri' },
       { name: 'Films', description: 'Film işlemleri' },
       { name: 'Categories', description: 'Kategori işlemleri' },
+      { name: 'Posts', description: 'Blog yazısı işlemleri' },
     ],
     components: {
       securitySchemes: {
@@ -163,6 +164,41 @@ const options = {
           properties: {
             name: { type: 'string' },
             description: { type: 'string' },
+          },
+        },
+        Post: {
+          type: 'object',
+          properties: {
+            _id: { type: 'string' },
+            title: { type: 'string' },
+            content: { type: 'string' },
+            author: { type: 'string', description: 'User ObjectId veya populate edilmiş User' },
+            film: { type: 'string', description: 'Film ObjectId (opsiyonel)' },
+            category: { type: 'string', description: 'Category ObjectId (opsiyonel)' },
+            createdAt: { type: 'string', format: 'date-time' },
+            updatedAt: { type: 'string', format: 'date-time' },
+          },
+        },
+        PostCreate: {
+          type: 'object',
+          required: ['title', 'content'],
+          properties: {
+            title: { type: 'string', example: 'Inception incelemesi' },
+            content: {
+              type: 'string',
+              example: 'Bu film rüya içinde rüya temasını çok başarılı işliyor...',
+            },
+            film: { type: 'string', example: '64f1a2b3c4d5e6f7a8b9c0d1' },
+            category: { type: 'string', example: '64f1a2b3c4d5e6f7a8b9c0d2' },
+          },
+        },
+        PostUpdate: {
+          type: 'object',
+          properties: {
+            title: { type: 'string' },
+            content: { type: 'string' },
+            film: { type: 'string' },
+            category: { type: 'string' },
           },
         },
       },

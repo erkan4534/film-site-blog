@@ -11,6 +11,7 @@ const authRoutes = require('./routes/authRoutes.js');
 const userRoutes = require('./routes/userRoutes');
 const filmRoutes = require('./routes/filmRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
+const postRoutes = require('./routes/postRoutes');
 
 const app = express();
 
@@ -35,6 +36,7 @@ app.use('/api/auth',authLimiter, authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/films',  filmRoutes);
 app.use('/api/categories',  categoryRoutes);
+app.use('/api/posts', postRoutes);
 
 app.use((req, res) => {
   res.status(404).send('Page not found!');
