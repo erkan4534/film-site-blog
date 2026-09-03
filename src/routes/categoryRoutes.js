@@ -36,6 +36,12 @@ const router = express.Router();
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/Category'
+ *       400:
+ *         description: Validasyon hatası
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ValidationError'
  *   post:
  *     tags: [Categories]
  *     summary: Kategori oluştur
@@ -54,6 +60,10 @@ const router = express.Router();
  *               $ref: '#/components/schemas/Category'
  *       400:
  *         description: Validasyon hatası
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ValidationError'
  *
  * /api/categories/{id}:
  *   get:
@@ -72,8 +82,18 @@ const router = express.Router();
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Category'
+ *       400:
+ *         description: Validasyon hatası (geçersiz id)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ValidationError'
  *       404:
  *         description: Kategori bulunamadı
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorMessage'
  *   put:
  *     tags: [Categories]
  *     summary: Kategori güncelle
@@ -98,6 +118,10 @@ const router = express.Router();
  *               $ref: '#/components/schemas/Category'
  *       400:
  *         description: Validasyon hatası
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ValidationError'
  *   delete:
  *     tags: [Categories]
  *     summary: Kategori sil
@@ -111,7 +135,11 @@ const router = express.Router();
  *       200:
  *         description: Kategori silindi
  *       400:
- *         description: Geçersiz kategori id
+ *         description: Validasyon hatası (geçersiz id)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ValidationError'
  */
 router.post('/', createCategoryValidator, categoryCreate);
 router.get('/', searchCategoryValidator, categorySearch);

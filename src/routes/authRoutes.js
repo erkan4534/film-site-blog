@@ -23,7 +23,9 @@ const authValidator = require('../validators/authValidators');
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/ErrorMessage'
+ *               oneOf:
+ *                 - $ref: '#/components/schemas/ValidationError'
+ *                 - $ref: '#/components/schemas/ErrorMessage'
  */
 router.post('/register', authValidator.registerValidator, authController.registerUser);
 
@@ -42,6 +44,12 @@ router.post('/register', authValidator.registerValidator, authController.registe
  *     responses:
  *       200:
  *         description: Giriş başarılı (accessToken cookie set edilebilir)
+ *       400:
+ *         description: Validasyon hatası
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ValidationError'
  *       401:
  *         description: Geçersiz email veya şifre
  *         content:

@@ -41,6 +41,12 @@ const router = express.Router();
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/Film'
+ *       400:
+ *         description: Validasyon hatası
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ValidationError'
  *   post:
  *     tags: [Films]
  *     summary: Film oluştur
@@ -59,6 +65,10 @@ const router = express.Router();
  *               $ref: '#/components/schemas/Film'
  *       400:
  *         description: Validasyon hatası
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ValidationError'
  *
  * /api/films/{id}:
  *   get:
@@ -77,8 +87,18 @@ const router = express.Router();
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Film'
+ *       400:
+ *         description: Validasyon hatası (geçersiz id)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ValidationError'
  *       404:
  *         description: Film bulunamadı
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorMessage'
  *   put:
  *     tags: [Films]
  *     summary: Film güncelle
@@ -103,6 +123,10 @@ const router = express.Router();
  *               $ref: '#/components/schemas/Film'
  *       400:
  *         description: Validasyon hatası
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ValidationError'
  *   delete:
  *     tags: [Films]
  *     summary: Film sil
@@ -116,7 +140,11 @@ const router = express.Router();
  *       200:
  *         description: Film silindi
  *       400:
- *         description: Geçersiz film id
+ *         description: Validasyon hatası (geçersiz id)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ValidationError'
  */
 router.post('/', createFilmValidator, filmCreate);
 router.get('/', searchFilmValidator, filmSearch);

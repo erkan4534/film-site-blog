@@ -49,6 +49,18 @@ const router = express.Router();
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/User'
+ *       400:
+ *         description: Validasyon hatası
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ValidationError'
+ *       401:
+ *         description: Geçersiz token
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorMessage'
  *       403:
  *         description: Token gerekli
  *         content:
@@ -86,7 +98,11 @@ const router = express.Router();
  *             schema:
  *               $ref: '#/components/schemas/User'
  *       400:
- *         description: Geçersiz istek
+ *         description: Validasyon hatası
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ValidationError'
  *
  * /api/users/{userId}:
  *   delete:
@@ -102,7 +118,11 @@ const router = express.Router();
  *       200:
  *         description: Kullanıcı silindi
  *       400:
- *         description: Geçersiz kullanıcı id
+ *         description: Validasyon hatası (geçersiz userId)
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ValidationError'
  */
 router.get('/', getAllUsers);
 router.post('/', verifyToken, createUserValidator, createUser);

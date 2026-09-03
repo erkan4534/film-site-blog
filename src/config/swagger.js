@@ -40,6 +40,37 @@ const options = {
             message: { type: 'string' },
           },
         },
+        ValidationErrorItem: {
+          type: 'object',
+          properties: {
+            type: { type: 'string', example: 'field' },
+            msg: { type: 'string', example: 'Email zorunludur' },
+            path: { type: 'string', example: 'email' },
+            location: { type: 'string', example: 'body' },
+            value: { type: 'string', example: '' },
+          },
+        },
+        ValidationError: {
+          type: 'object',
+          properties: {
+            errors: {
+              type: 'array',
+              items: {
+                $ref: '#/components/schemas/ValidationErrorItem',
+              },
+            },
+          },
+          example: {
+            errors: [
+              {
+                type: 'field',
+                msg: 'Email zorunludur',
+                path: 'email',
+                location: 'body',
+              },
+            ],
+          },
+        },
         LoginRequest: {
           type: 'object',
           required: ['email', 'password'],
