@@ -98,6 +98,7 @@ const options = {
             lastName: { type: 'string' },
             email: { type: 'string', format: 'email' },
             address: { type: 'string' },
+            role: { type: 'string', enum: ['user', 'admin'], example: 'user' },
             createdAt: { type: 'string', format: 'date-time' },
             updatedAt: { type: 'string', format: 'date-time' },
           },

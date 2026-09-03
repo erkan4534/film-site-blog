@@ -31,6 +31,10 @@ const createUserValidator = [
     .trim()
     .isLength({ min: 3 })
     .withMessage('Adres en az 3 karakter olmalıdır'),
+  body('role')
+    .optional()
+    .isIn(['user', 'admin'])
+    .withMessage('Role user veya admin olmalıdır'),
   validate,
 ];
 
@@ -67,6 +71,10 @@ const updateUserValidator = [
     .trim()
     .isLength({ min: 3 })
     .withMessage('Adres en az 3 karakter olmalıdır'),
+  body('role')
+    .optional()
+    .isIn(['user', 'admin'])
+    .withMessage('Role user veya admin olmalıdır'),
   validate,
 ];
 

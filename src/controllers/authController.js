@@ -6,15 +6,19 @@ const cookieConfig = require('../config/cookieConfig.js');
 
 const registerUser = async (req, res) => {
   try {
-    const { password,...otherData } = req.body;
-    
+    const { password, role, ...otherData } = req.body;
+
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
-        
-    const newUser = await User.create({  password: hashedPassword, ...otherData });
 
-    const token = jwt.sign({ id: newUser._id, email: newUser.email }, secret, { expiresIn });
-    
+    const newUser = await User.create({ password: hashedPassword, ...otherData });
+
+    const token = jwt.sign(
+      { id: newUser._id, email: newUser.email, role: newUser.role },
+      secret,
+      { expiresIn }
+    );
+
     res.status(201).json({ message: 'Kullanıcı başarıyla oluşturuldu!', user: newUser, token });
   } catch (error) {
     console.error('Kullanıcı oluşturulurken hata oluştu:', error);
@@ -25,7 +29,7 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ email }).select('+password'); 
+    const user = await User.findOne({ email }).select('+password');
 
     if (!user) {
       return res.status(404).json({ message: 'Kullanıcı bulunamadı!' });
@@ -34,16 +38,20 @@ const loginUser = async (req, res) => {
     const validPassword = await bcrypt.compare(password, user.password);
 
     if (!validPassword) {
-      return res.status(401).json({ message: 'Geçersiz email veya şifre'  });
+      return res.status(401).json({ message: 'Geçersiz email veya şifre' });
     }
 
-    const token = jwt.sign({ id: user._id, email: user.email }, secret, { expiresIn });
+    const token = jwt.sign(
+      { id: user._id, email: user.email, role: user.role || 'user' },
+      secret,
+      { expiresIn }
+    );
     res.cookie('accessToken', token, cookieConfig.accessToken);
 
-   // res.status(200).json({ message: 'Giriş başarılı!', token });
-    
-     res.status(200).json({ message: 'Giriş başarılı!', user: { id: user._id, email: user.email } });
-    
+    res.status(200).json({
+      message: 'Giriş başarılı!',
+      user: { id: user._id, email: user.email, role: user.role || 'user' },
+    });
   } catch (error) {
     console.error('Giriş yapılırken hata oluştu:', error);
     res.status(400).json({ message: error.message });

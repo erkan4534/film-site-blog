@@ -1,5 +1,6 @@
 const express = require('express');
 const { verifyToken } = require('../middleware/auth.js');
+const { authorize } = require('../middleware/authorize.js');
 const {
   filmCreate,
   filmSearch,
@@ -147,10 +148,10 @@ const router = express.Router();
  *             schema:
  *               $ref: '#/components/schemas/ValidationError'
  */
-router.post('/', verifyToken, createFilmValidator, filmCreate);
-router.get('/', verifyToken, searchFilmValidator, filmSearch);
-router.get('/:id', verifyToken, filmIdValidator, filmFind);
-router.put('/:id', verifyToken, updateFilmValidator, filmUpdate);
-router.delete('/:id', verifyToken, filmIdValidator, filmDelete);
+router.post('/', verifyToken, authorize('user', 'admin'), createFilmValidator, filmCreate);
+router.get('/', verifyToken, authorize('user', 'admin'), searchFilmValidator, filmSearch);
+router.get('/:id', verifyToken, authorize('user', 'admin'), filmIdValidator, filmFind);
+router.put('/:id', verifyToken, authorize('user', 'admin'), updateFilmValidator, filmUpdate);
+router.delete('/:id', verifyToken, authorize('admin'), filmIdValidator, filmDelete);
 
 module.exports = router;

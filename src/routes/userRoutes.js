@@ -1,5 +1,6 @@
 const express = require('express');
 const { verifyToken } = require('../middleware/auth.js');
+const { authorize } = require('../middleware/authorize.js');
 
 const {
   getAllUsers,
@@ -124,9 +125,9 @@ const router = express.Router();
  *             schema:
  *               $ref: '#/components/schemas/ValidationError'
  */
-router.get('/',verifyToken, getAllUsers);
-router.post('/', verifyToken, createUserValidator, createUser);
-router.put('/:id',verifyToken, updateUserValidator, updateUser);
-router.delete('/:userId',verifyToken, userIdValidator, deleteUser);
+router.get('/', verifyToken, authorize('user', 'admin'), getAllUsers);
+router.post('/', verifyToken, authorize('user', 'admin'), createUserValidator, createUser);
+router.put('/:id', verifyToken, authorize('user', 'admin'), updateUserValidator, updateUser);
+router.delete('/:userId', verifyToken, authorize('admin'), userIdValidator, deleteUser);
 
 module.exports = router;

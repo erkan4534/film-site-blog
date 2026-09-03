@@ -12,18 +12,25 @@ const getAllUsers = async (req, res) => {
 
 const createUser = async (req, res) => {
   try {
-    const { firstName, lastName, address, email, password } = req.body;
+    const { firstName, lastName, address, email, password, role } = req.body;
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const user = await User.create({
+    const userData = {
       firstName,
       lastName,
       address,
       email,
       password: hashedPassword,
-    });
+    };
+
+    // Role sadece admin atayabilir
+    if (req.user?.role === 'admin' && role) {
+      userData.role = role;
+    }
+
+    const user = await User.create(userData);
 
     res.status(201).json(user);
   } catch (error) {
@@ -33,8 +40,17 @@ const createUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
   try {
-    const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {
+    const { role, ...rest } = req.body;
+    const updateData = { ...rest };
+
+    // Role sadece admin değiştirebilir
+    if (req.user?.role === 'admin' && role !== undefined) {
+      updateData.role = role;
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(req.params.id, updateData, {
       new: true,
+      runValidators: true,
     }).select("-password");
     if (!updatedUser) {
       return res.status(404).json({ message: "Kullanıcı bulunamadı" });
