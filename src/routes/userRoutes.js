@@ -124,9 +124,9 @@ const router = express.Router();
  *             schema:
  *               $ref: '#/components/schemas/ValidationError'
  */
-router.get('/', getAllUsers);
+router.get('/',verifyToken, getAllUsers);
 router.post('/', verifyToken, createUserValidator, createUser);
-router.put('/:id', updateUserValidator, updateUser);
-router.delete('/:userId', userIdValidator, deleteUser);
+router.put('/:id',verifyToken, updateUserValidator, updateUser);
+router.delete('/:userId',verifyToken, userIdValidator, deleteUser);
 
 module.exports = router;

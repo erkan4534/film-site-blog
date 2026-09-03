@@ -1,4 +1,5 @@
 const express = require('express');
+const { verifyToken } = require('../middleware/auth.js');
 const {
   categoryCreate,
   categorySearch,
@@ -141,10 +142,10 @@ const router = express.Router();
  *             schema:
  *               $ref: '#/components/schemas/ValidationError'
  */
-router.post('/', createCategoryValidator, categoryCreate);
-router.get('/', searchCategoryValidator, categorySearch);
-router.get('/:id', categoryIdValidator, categoryFind);
-router.put('/:id', updateCategoryValidator, categoryUpdate);
-router.delete('/:id', categoryIdValidator, categoryDelete);
+router.post('/',verifyToken, createCategoryValidator, categoryCreate);
+router.get('/',verifyToken, searchCategoryValidator, categorySearch);
+router.get('/:id',verifyToken, categoryIdValidator, categoryFind);
+router.put('/:id',verifyToken, updateCategoryValidator, categoryUpdate);
+router.delete('/:id',verifyToken, categoryIdValidator, categoryDelete);
 
 module.exports = router;
