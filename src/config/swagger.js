@@ -20,6 +20,7 @@ const options = {
       { name: 'Films', description: 'Film işlemleri' },
       { name: 'Categories', description: 'Kategori işlemleri' },
       { name: 'Posts', description: 'Blog yazısı işlemleri' },
+      { name: 'History', description: 'İzleme ve okuma geçmişi' },
     ],
     components: {
       securitySchemes: {
@@ -199,6 +200,35 @@ const options = {
             content: { type: 'string' },
             film: { type: 'string' },
             category: { type: 'string' },
+          },
+        },
+        History: {
+          type: 'object',
+          properties: {
+            _id: { type: 'string' },
+            user: { type: 'string', description: 'User ObjectId' },
+            type: { type: 'string', enum: ['watch', 'read'] },
+            film: { type: 'string', description: 'Film ObjectId (watch)' },
+            post: { type: 'string', description: 'Post ObjectId (read)' },
+            createdAt: { type: 'string', format: 'date-time' },
+            updatedAt: { type: 'string', format: 'date-time' },
+          },
+        },
+        HistoryCreate: {
+          type: 'object',
+          required: ['type'],
+          properties: {
+            type: { type: 'string', enum: ['watch', 'read'], example: 'watch' },
+            film: {
+              type: 'string',
+              example: '64f1a2b3c4d5e6f7a8b9c0d1',
+              description: 'type=watch iken zorunlu',
+            },
+            post: {
+              type: 'string',
+              example: '64f1a2b3c4d5e6f7a8b9c0d2',
+              description: 'type=read iken zorunlu',
+            },
           },
         },
       },
