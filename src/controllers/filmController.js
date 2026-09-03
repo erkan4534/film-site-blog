@@ -5,7 +5,7 @@ const isValidId = (id) => mongoose.Types.ObjectId.isValid(id);
 
 const filmCreate = async (req, res) => {
   try {
-    const { name, description, category } = req.body;
+    const { name, description, category, youtubeUrl } = req.body;
 
     if (!name) {
       return res.status(400).json({ message: 'Film adı zorunludur' });
@@ -15,7 +15,7 @@ const filmCreate = async (req, res) => {
       return res.status(400).json({ message: 'Geçersiz kategori id' });
     }
 
-    const film = await Film.create({ name, description, category });
+    const film = await Film.create({ name, description, category, youtubeUrl });
 
     return res.status(201).json(film);
   } catch (error) {
@@ -70,7 +70,7 @@ const filmFind = async (req, res) => {
 const filmUpdate = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, description, category } = req.body;
+    const { name, description, category, youtubeUrl } = req.body;
 
     if (!isValidId(id)) {
       return res.status(400).json({ message: 'Geçersiz film id' });
@@ -82,7 +82,7 @@ const filmUpdate = async (req, res) => {
 
     const film = await Film.findByIdAndUpdate(
       id,
-      { name, description, category },
+      { name, description, category, youtubeUrl },
       { new: true, runValidators: true }
     ).populate('category');
 

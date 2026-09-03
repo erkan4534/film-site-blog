@@ -109,6 +109,10 @@ const options = {
             _id: { type: 'string' },
             name: { type: 'string' },
             description: { type: 'string' },
+            youtubeUrl: {
+              type: 'string',
+              example: 'https://www.youtube.com/watch?v=YoHD9XEInc0',
+            },
             category: { type: 'string', description: 'Category ObjectId' },
             createdAt: { type: 'string', format: 'date-time' },
             updatedAt: { type: 'string', format: 'date-time' },
@@ -120,6 +124,10 @@ const options = {
           properties: {
             name: { type: 'string', example: 'Inception' },
             description: { type: 'string', example: 'Bilim kurgu filmi' },
+            youtubeUrl: {
+              type: 'string',
+              example: 'https://www.youtube.com/watch?v=YoHD9XEInc0',
+            },
             category: { type: 'string', example: '64f1a2b3c4d5e6f7a8b9c0d1' },
           },
         },
@@ -128,6 +136,7 @@ const options = {
           properties: {
             name: { type: 'string' },
             description: { type: 'string' },
+            youtubeUrl: { type: 'string' },
             category: { type: 'string' },
           },
         },

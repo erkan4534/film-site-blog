@@ -1,6 +1,9 @@
 const { body, param, query } = require('express-validator');
 const validate = require('../middleware/validate.js');
 
+const youtubeUrlRegex =
+  /^(https?:\/\/)?(www\.)?(youtube\.com\/(watch\?v=|embed\/|shorts\/)|youtu\.be\/)[\w-]{11}([?&].*)?$/i;
+
 const createFilmValidator = [
   body('name')
     .trim()
@@ -13,6 +16,11 @@ const createFilmValidator = [
     .trim()
     .isLength({ min: 3 })
     .withMessage('Açıklama en az 3 karakter olmalıdır'),
+  body('youtubeUrl')
+    .optional({ values: 'falsy' })
+    .trim()
+    .matches(youtubeUrlRegex)
+    .withMessage('Geçerli bir YouTube linki giriniz'),
   body('category')
     .optional({ values: 'falsy' })
     .isMongoId()
@@ -34,6 +42,11 @@ const updateFilmValidator = [
     .trim()
     .isLength({ min: 3 })
     .withMessage('Açıklama en az 3 karakter olmalıdır'),
+  body('youtubeUrl')
+    .optional({ values: 'falsy' })
+    .trim()
+    .matches(youtubeUrlRegex)
+    .withMessage('Geçerli bir YouTube linki giriniz'),
   body('category')
     .optional({ values: 'falsy' })
     .isMongoId()

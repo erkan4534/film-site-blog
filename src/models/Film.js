@@ -11,6 +11,10 @@ const filmSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
+    youtubeUrl: {
+      type: String,
+      trim: true,
+    },
     category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Category',
