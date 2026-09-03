@@ -2,8 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
-const swaggerUi = require('swagger-ui-express');
-const swaggerSpec = require('./config/swagger');
+
 const { logger } = require('./middleware/logEvents');
 const errorHandler = require('./middleware/errorHandler');
 const { globalLimiter, authLimiter } = require('./middleware/rateLimiter');
@@ -23,10 +22,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use('/api-docs', swaggerUi.serve,swaggerUi.setup(swaggerSpec, {
+if (process.env.NODE_ENV !== 'production') {
+  const swaggerUi = require('swagger-ui-express');
+  const swaggerSpec = require('./config/swagger');
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
     explorer: true,
-    customSiteTitle: 'Film Site Blog API Docs'})
-);
+    customSiteTitle: 'Film Site Blog API Docs',
+  }));
+}
 
 app.use('/api/auth',authLimiter, authRoutes);
 app.use('/api/users', userRoutes);
