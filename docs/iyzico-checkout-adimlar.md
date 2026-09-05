@@ -47,7 +47,7 @@ Bu adımda AI kod yazmaz.
 - `src/config/iyzicoConfig.js` (apiKey, secretKey, uri)
 - `.env` alanları:
   ```
-  PAYMENT_PROVIDER=mock
+  PAYMENT_PROVIDER=iyzico
   IYZICO_API_KEY=
   IYZICO_SECRET_KEY=
   IYZICO_URI=https://sandbox-api.iyzipay.com
@@ -55,7 +55,7 @@ Bu adımda AI kod yazmaz.
   IYZICO_TEST_IDENTITY=74300864791
   IYZICO_TEST_GSM=+905555434332
   ```
-- Başlangıçta `PAYMENT_PROVIDER=mock` kalsın; iyzico bitince `iyzico` yapılır
+- `PAYMENT_PROVIDER=iyzico` (geliştirmede geçici test için `mock` da kullanılabilir)
 
 **Komut:** `adım 1 yap` veya `yap` (sıradaki adım 1 ise)
 
@@ -160,13 +160,13 @@ Panelde webhook URL’ini kaydetmen gerekir.
 
 | Adım | Durum |
 |------|--------|
-| 0 Hazırlık (sen) | bekliyor |
-| 1 Config + paket | bekliyor |
-| 2 Payment alanları | bekliyor |
-| 3 iyzico servisi | bekliyor |
-| 4 Subscribe ayrımı | bekliyor |
-| 5 Callback | bekliyor |
-| 6 Webhook | bekliyor |
-| 7 Swagger | bekliyor |
+| 0 Hazırlık (sen) | tamam |
+| 1 Config + paket | tamam |
+| 2 Payment alanları | tamam |
+| 3 iyzico servisi | tamam |
+| 4 Subscribe ayrımı | tamam |
+| 5 Callback | tamam |
+| 6 Webhook | tamam |
+| 7 Swagger | tamam |
 
-Sıradaki kod adımı: **1** — hazır olunca **`yap`** veya **`adım 1 yap`** yaz.
+Tüm kod adımları tamamlandı. Test checklist’i uygula.

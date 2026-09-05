@@ -21,7 +21,7 @@ const options = {
       { name: 'Categories', description: 'Kategori işlemleri' },
       { name: 'Posts', description: 'Blog yazısı işlemleri' },
       { name: 'History', description: 'İzleme ve okuma geçmişi' },
-      { name: 'Payments', description: 'Premium abonelik ve ödemeler (mock)' },
+      { name: 'Payments', description: 'Premium abonelik ve ödemeler (mock / iyzico Checkout Form)' },
     ],
     components: {
       securitySchemes: {
@@ -250,6 +250,8 @@ const options = {
             status: { type: 'string', enum: ['pending', 'paid', 'failed'] },
             provider: { type: 'string', enum: ['mock', 'iyzico'] },
             providerPaymentId: { type: 'string', nullable: true },
+            conversationId: { type: 'string', nullable: true },
+            checkoutToken: { type: 'string', nullable: true },
             createdAt: { type: 'string', format: 'date-time' },
             updatedAt: { type: 'string', format: 'date-time' },
           },
@@ -262,6 +264,19 @@ const options = {
               enum: ['monthly', 'yearly'],
               default: 'monthly',
             },
+          },
+        },
+        PaymentIyzicoSubscribeResponse: {
+          type: 'object',
+          properties: {
+            message: { type: 'string' },
+            payment: { $ref: '#/components/schemas/Payment' },
+            token: { type: 'string' },
+            paymentPageUrl: {
+              type: 'string',
+              description: 'Kullanıcıyı bu URL ye yönlendir (Checkout Form)',
+            },
+            tokenExpireTime: { type: 'integer' },
           },
         },
       },

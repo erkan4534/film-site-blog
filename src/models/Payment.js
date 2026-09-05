@@ -38,6 +38,17 @@ const paymentSchema = new mongoose.Schema(
       trim: true,
       default: null,
     },
+    conversationId: {
+      type: String,
+      trim: true,
+      unique: true,
+      sparse: true,
+    },
+    checkoutToken: {
+      type: String,
+      trim: true,
+      default: null,
+    },
   },
   {
     timestamps: true,
