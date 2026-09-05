@@ -1,6 +1,7 @@
 const express = require('express');
 const { verifyToken } = require('../middleware/auth.js');
 const { authorize } = require('../middleware/authorize.js');
+const { requirePremium } = require('../middleware/requirePremium.js');
 const {
   postCreate,
   postSearch,
@@ -169,7 +170,7 @@ const router = express.Router();
  */
 router.post('/', verifyToken, authorize('user', 'admin'), createPostValidator, postCreate);
 router.get('/', verifyToken, authorize('user', 'admin'), searchPostValidator, postSearch);
-router.get('/:id', verifyToken, authorize('user', 'admin'), postIdValidator, postFind);
+router.get('/:id', verifyToken, authorize('user', 'admin'), requirePremium, postIdValidator, postFind);
 router.put('/:id', verifyToken, authorize('user', 'admin'), updatePostValidator, postUpdate);
 router.delete('/:id', verifyToken, authorize('admin'), postIdValidator, postDelete);
 

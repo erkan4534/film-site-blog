@@ -68,7 +68,12 @@ const postSearch = async (req, res) => {
     }
 
     const posts = await Post.find(filter)
-      .populate(populateOptions)
+      .select('-content')
+      .populate([
+        { path: 'author', select: 'firstName lastName email role' },
+        { path: 'film', select: 'name' },
+        { path: 'category', select: 'name' },
+      ])
       .sort({ createdAt: -1 });
 
     return res.status(200).json(posts);

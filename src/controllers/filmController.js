@@ -39,7 +39,10 @@ const filmSearch = async (req, res) => {
       filter.category = category;
     }
 
-    const films = await Film.find(filter).populate('category').sort({ createdAt: -1 });
+    const films = await Film.find(filter)
+      .select('-youtubeUrl')
+      .populate('category')
+      .sort({ createdAt: -1 });
 
     return res.status(200).json(films);
   } catch (error) {

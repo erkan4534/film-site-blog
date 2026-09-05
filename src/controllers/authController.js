@@ -14,12 +14,27 @@ const registerUser = async (req, res) => {
     const newUser = await User.create({ password: hashedPassword, ...otherData });
 
     const token = jwt.sign(
-      { id: newUser._id, email: newUser.email, role: newUser.role },
+      {
+        id: newUser._id,
+        email: newUser.email,
+        role: newUser.role,
+        plan: newUser.plan || 'free',
+      },
       secret,
       { expiresIn }
     );
 
-    res.status(201).json({ message: 'Kullanıcı başarıyla oluşturuldu!', user: newUser, token });
+    res.status(201).json({
+      message: 'Kullanıcı başarıyla oluşturuldu!',
+      user: {
+        id: newUser._id,
+        email: newUser.email,
+        role: newUser.role,
+        plan: newUser.plan || 'free',
+        premiumValidDate: newUser.premiumValidDate,
+      },
+      token,
+    });
   } catch (error) {
     console.error('Kullanıcı oluşturulurken hata oluştu:', error);
     res.status(400).json({ message: error.message });
@@ -41,8 +56,9 @@ const loginUser = async (req, res) => {
       return res.status(401).json({ message: 'Geçersiz email veya şifre' });
     }
 
+    const plan = user.plan || 'free';
     const token = jwt.sign(
-      { id: user._id, email: user.email, role: user.role || 'user' },
+      { id: user._id, email: user.email, role: user.role || 'user', plan },
       secret,
       { expiresIn }
     );
@@ -50,7 +66,13 @@ const loginUser = async (req, res) => {
 
     res.status(200).json({
       message: 'Giriş başarılı!',
-      user: { id: user._id, email: user.email, role: user.role || 'user' },
+      user: {
+        id: user._id,
+        email: user.email,
+        role: user.role || 'user',
+        plan,
+        premiumValidDate: user.premiumValidDate,
+      },
     });
   } catch (error) {
     console.error('Giriş yapılırken hata oluştu:', error);

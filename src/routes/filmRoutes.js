@@ -1,6 +1,7 @@
 const express = require('express');
 const { verifyToken } = require('../middleware/auth.js');
 const { authorize } = require('../middleware/authorize.js');
+const { requirePremium } = require('../middleware/requirePremium.js');
 const {
   filmCreate,
   filmSearch,
@@ -150,7 +151,7 @@ const router = express.Router();
  */
 router.post('/', verifyToken, authorize('user', 'admin'), createFilmValidator, filmCreate);
 router.get('/', verifyToken, authorize('user', 'admin'), searchFilmValidator, filmSearch);
-router.get('/:id', verifyToken, authorize('user', 'admin'), filmIdValidator, filmFind);
+router.get('/:id', verifyToken, authorize('user', 'admin'), requirePremium, filmIdValidator, filmFind);
 router.put('/:id', verifyToken, authorize('user', 'admin'), updateFilmValidator, filmUpdate);
 router.delete('/:id', verifyToken, authorize('admin'), filmIdValidator, filmDelete);
 

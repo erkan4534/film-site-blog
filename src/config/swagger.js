@@ -6,7 +6,7 @@ const options = {
     info: {
       title: 'Film Site Blog API',
       version: '1.0.0',
-      description: 'Film, kategori, blog yazısı ve kullanıcı API dokümantasyonu',
+      description: 'Film, kategori, blog yazısı, ödeme ve kullanıcı API dokümantasyonu',
     },
     servers: [
       {
@@ -21,6 +21,7 @@ const options = {
       { name: 'Categories', description: 'Kategori işlemleri' },
       { name: 'Posts', description: 'Blog yazısı işlemleri' },
       { name: 'History', description: 'İzleme ve okuma geçmişi' },
+      { name: 'Payments', description: 'Premium abonelik ve ödemeler (mock)' },
     ],
     components: {
       securitySchemes: {
@@ -101,6 +102,13 @@ const options = {
             email: { type: 'string', format: 'email' },
             address: { type: 'string' },
             role: { type: 'string', enum: ['user', 'admin'], example: 'user' },
+            plan: { type: 'string', enum: ['free', 'premium'], example: 'free' },
+            premiumValidDate: {
+              type: 'string',
+              format: 'date-time',
+              nullable: true,
+              description: 'Premium bitiş tarihi',
+            },
             createdAt: { type: 'string', format: 'date-time' },
             updatedAt: { type: 'string', format: 'date-time' },
           },
@@ -228,6 +236,31 @@ const options = {
               type: 'string',
               example: '64f1a2b3c4d5e6f7a8b9c0d2',
               description: 'type=read iken zorunlu',
+            },
+          },
+        },
+        Payment: {
+          type: 'object',
+          properties: {
+            _id: { type: 'string' },
+            user: { type: 'string', description: 'User ObjectId' },
+            amount: { type: 'number', example: 99 },
+            currency: { type: 'string', example: 'TRY' },
+            plan: { type: 'string', enum: ['monthly', 'yearly'] },
+            status: { type: 'string', enum: ['pending', 'paid', 'failed'] },
+            provider: { type: 'string', enum: ['mock', 'iyzico'] },
+            providerPaymentId: { type: 'string', nullable: true },
+            createdAt: { type: 'string', format: 'date-time' },
+            updatedAt: { type: 'string', format: 'date-time' },
+          },
+        },
+        PaymentSubscribe: {
+          type: 'object',
+          properties: {
+            plan: {
+              type: 'string',
+              enum: ['monthly', 'yearly'],
+              default: 'monthly',
             },
           },
         },

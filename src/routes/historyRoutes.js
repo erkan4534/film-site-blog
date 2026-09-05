@@ -1,6 +1,7 @@
 const express = require('express');
 const { verifyToken } = require('../middleware/auth.js');
 const { authorize } = require('../middleware/authorize.js');
+const { requirePremium } = require('../middleware/requirePremium.js');
 const {
   historyCreate,
   historySearch,
@@ -107,8 +108,8 @@ const router = express.Router();
  *             schema:
  *               $ref: '#/components/schemas/ErrorMessage'
  */
-router.get('/', verifyToken, authorize('user', 'admin'), searchHistoryValidator, historySearch);
-router.post('/', verifyToken, authorize('user', 'admin'), createHistoryValidator, historyCreate);
+router.get('/', verifyToken, authorize('user', 'admin'), requirePremium, searchHistoryValidator, historySearch);
+router.post('/', verifyToken, authorize('user', 'admin'), requirePremium, createHistoryValidator, historyCreate);
 router.delete('/:id', verifyToken, authorize('admin'), historyIdValidator, historyDelete);
 
 module.exports = router;

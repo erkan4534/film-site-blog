@@ -33,6 +33,15 @@ const userSchema = new mongoose.Schema(
       enum: ['user', 'admin'],
       default: 'user',
     },
+    plan: {
+      type: String,
+      enum: ['free', 'premium'],
+      default: 'free',
+    },
+    premiumValidDate: {
+      type: Date,
+      default: null,
+    },
   },
   {
     timestamps: true,

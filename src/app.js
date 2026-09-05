@@ -13,6 +13,7 @@ const filmRoutes = require('./routes/filmRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
 const postRoutes = require('./routes/postRoutes');
 const historyRoutes = require('./routes/historyRoutes');
+const paymentRoutes = require('./routes/paymentRoutes');
 
 const app = express();
 
@@ -39,6 +40,7 @@ app.use('/api/films',  filmRoutes);
 app.use('/api/categories',  categoryRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/history', historyRoutes);
+app.use('/api/payments', paymentRoutes);
 
 app.use((req, res) => {
   res.status(404).send('Page not found!');
